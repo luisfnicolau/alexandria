@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import it.jaschke.alexandria.api.Callback;
+import it.jaschke.alexandria.services.BookService;
 
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, Callback {
@@ -40,6 +41,10 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Check internet connection after scanning a book
+        if (!getIntent().getBooleanExtra(BookService.CHECK_INTERNET_CONNECTION_TAG, true)) {
+            Toast.makeText(getApplicationContext(), "Counldn't connect, please check your internet connection", Toast.LENGTH_LONG).show();
+        }
         IS_TABLET = isTablet();
         if(IS_TABLET){
             setContentView(R.layout.activity_main_tablet);
