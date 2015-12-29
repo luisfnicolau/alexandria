@@ -105,7 +105,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
 //                Toast toast = Toast.makeText(context, text, duration);
 //                toast.show();
                 try {
-                    //start the scanning activity from the com.google.zxing.client.android.SCAN intent
+                    //start the scanning activity from the com.google.zxing.client.android.SCAN intent (Yet need to donwload another app)
                     Intent intent = new Intent(ACTION_SCAN);
                     intent.putExtra("SCAN_MODE", "PRODUCT_MODE");
                     startActivityForResult(intent, 0);
@@ -221,7 +221,6 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
             if (resultCode == getActivity().RESULT_OK) {
             //get the extras that are returned from the intent
             String contents = intent.getStringExtra("SCAN_RESULT");
-            String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
             ean.setText(contents);
         }
         }
