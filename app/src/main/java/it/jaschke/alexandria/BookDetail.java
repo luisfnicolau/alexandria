@@ -75,6 +75,15 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
         MenuItem menuItem = menu.findItem(R.id.action_share);
         shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
 
+        //Need to fetch book title and setShare intent here because change orientation could make onCreateOptionsMenu get called before onLoadFinished resulting trying to setShareIntent on a null shareActionProvider
+        Cursor cursor = getActivity().getContentResolver().query(AlexandriaContract.BookEntry.buildFullBookUri(Long.parseLong(ean)),
+                        null,
+                        null,
+                        null,
+                        null);
+        if (cursor.moveToFirst()) {
+            bookTitle = cursor.getString(cursor.getColumnIndex(AlexandriaContract.BookEntry.TITLE));
+        }
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
         shareIntent.setType("text/plain");
@@ -103,7 +112,6 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
         bookTitle = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.TITLE));
         ((TextView) rootView.findViewById(R.id.fullBookTitle)).setText(bookTitle);
 
-        //This must be on OnCreateOptionMenu or it will be executed before creating the option menu and the shareActionProvider will be null
 //        Intent shareIntent = new Intent(Intent.ACTION_SEND);
 //        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
 //        shareIntent.setType("text/plain");
@@ -152,5 +160,10 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
         if (ean != null) {
             getActivity().getContentResolver().delete(AlexandriaContract.BookEntry.buildBookUri(Long.parseLong(ean)), null, null);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 }
