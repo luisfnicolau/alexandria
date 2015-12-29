@@ -112,6 +112,7 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
         bookTitle = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.TITLE));
         ((TextView) rootView.findViewById(R.id.fullBookTitle)).setText(bookTitle);
 
+        //shareIntent need to be set on onCreateOptionsMenu to avoid bugs
 //        Intent shareIntent = new Intent(Intent.ACTION_SEND);
 //        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
 //        shareIntent.setType("text/plain");
